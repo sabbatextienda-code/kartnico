@@ -1,16 +1,17 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Lock, MapPin, Menu, X } from 'lucide-react'
 import { BUSINESS, whatsappHref } from '@/lib/products'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 
 const NAV = [
-  { href: '#catalogo', label: 'Catálogo' },
-  { href: '#como-comprar', label: 'Cómo comprar' },
-  { href: '#nosotros', label: 'Nosotros' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '/#catalogo', label: 'Catálogo' },
+  { href: '/#como-comprar', label: 'Cómo comprar' },
+  { href: '/#nosotros', label: 'Nosotros' },
+  { href: '/#contacto', label: 'Contacto' },
 ]
 
 export function SiteHeader() {
@@ -33,7 +34,7 @@ export function SiteHeader() {
       }`}
     >
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a href="#top" className="flex items-center gap-2.5 transition-opacity hover:opacity-90">
+        <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-90">
           <Image
             src="/logoblanco.webp"
             alt={BUSINESS.name}
@@ -42,17 +43,17 @@ export function SiteHeader() {
             className="h-12 sm:h-14 w-auto object-contain"
             priority
           />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
           {NAV.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -68,13 +69,13 @@ export function SiteHeader() {
           </a>
 
           {/* Botón de acceso de administración oculto de forma sutil */}
-          <a
+          <Link
             href="/admin/login"
             className="inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground/30 hover:text-foreground/80 hover:border-foreground/20 transition-all"
             title="Acceso de Administración"
           >
             <Lock className="size-4" />
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -91,22 +92,22 @@ export function SiteHeader() {
         <div className="border-t border-border bg-background md:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col px-4 py-2 sm:px-6">
             {NAV.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="border-b border-border/70 py-3 text-sm font-medium text-foreground last:border-0"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
-            <a
+            <Link
               href="/admin/login"
               onClick={() => setOpen(false)}
               className="py-3 text-xs font-mono text-muted-foreground hover:text-foreground"
             >
               Acceso Administración
-            </a>
+            </Link>
           </nav>
         </div>
       )}

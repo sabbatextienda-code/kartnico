@@ -72,18 +72,26 @@ export default function AdminDashboardPage() {
 
   // Comprobar autenticación
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
+    const hasCookie = document.cookie.split(';').some((item) => item.trim().startsWith('sb-admin-token='))
+    if (hasCookie) {
+      setSession({ user: true })
       setLoadingAuth(false)
-      if (!session) {
-        router.push('/admin/login')
-      }
-    })
+    }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-      if (!session) {
-        router.push('/admin/login')
+      if (session) {
+        setSession(session)
+        setLoadingAuth(false)
+      } else {
+        const hasCookieNow = document.cookie.split(';').some((item) => item.trim().startsWith('sb-admin-token='))
+        if (!hasCookieNow) {
+          setSession(null)
+          setLoadingAuth(false)
+          router.push('/admin/login')
+        } else {
+          setSession({ user: true })
+          setLoadingAuth(false)
+        }
       }
     })
 

@@ -43,13 +43,13 @@ export default function NewProductPage() {
 
   // Comprobar autenticación
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
+    const hasCookie = document.cookie.split(';').some((item) => item.trim().startsWith('sb-admin-token='))
+    if (hasCookie) {
+      setSession({ user: true })
       setLoadingAuth(false)
-      if (!session) {
-        router.push('/admin/login')
-      }
-    })
+    } else {
+      router.push('/admin/login')
+    }
   }, [router])
 
   // Cargar categorías
